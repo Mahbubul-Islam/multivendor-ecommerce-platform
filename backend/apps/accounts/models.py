@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import slugify
 
 
 class User(AbstractUser):
@@ -34,7 +35,9 @@ class User(AbstractUser):
 
 
 class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="customer_profile")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="customer_profile"
+    )
     shipping_address = models.TextField(blank=True)
     city = models.CharField(max_length=100, blank=True)
     postal_code = models.CharField(max_length=10, blank=True)
@@ -44,9 +47,11 @@ class CustomerProfile(models.Model):
 
 
 class VendorProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="vendor_profile")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="vendor_profile"
+    )
     shop_name = models.CharField(max_length=200)
-    shop_slug = models.SlugField(unique=True)
+    shop_slug = models.SlugField(unique=True, blank=True, editable=False)
     shop_description = models.TextField(blank=True)
     logo = models.ImageField(upload_to="vendor_logos/", blank=True, null=True)
     banner = models.ImageField(upload_to="vendor_banners/", blank=True, null=True)
@@ -54,6 +59,22 @@ class VendorProfile(models.Model):
     city = models.CharField(max_length=100, blank=True)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def _build_unique_slug(self):
+        base_value = self.shop_slug or self.shop_name
+        base_slug = slugify(base_value) or "shop"
+        slug = base_slug
+        suffix = 2
+
+        while VendorProfile.objects.filter(shop_slug=slug).exclude(pk=self.pk).exists():
+            slug = f"{base_slug}-{suffix}"
+            suffix += 1
+
+        return slug
+
+    def save(self, *args, **kwargs):
+        self.shop_slug = self._build_unique_slug()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.shop_name
