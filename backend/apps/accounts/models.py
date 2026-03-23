@@ -73,7 +73,8 @@ class VendorProfile(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
-        self.shop_slug = self._build_unique_slug()
+        if not self.shop_slug:
+            self.shop_slug = self._build_unique_slug()
         super().save(*args, **kwargs)
 
     def __str__(self):
