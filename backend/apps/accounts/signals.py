@@ -13,6 +13,5 @@ def create_user_profile(sender, instance, created, **kwargs):
         elif instance.role == User.Role.VENDOR:
             VendorProfile.objects.create(
                 user=instance,
-                shop_name=f"{instance.first_name}'s Shop",
-                shop_slug=instance.username
+                shop_name=f"{instance.first_name}'s Shop"
             )
