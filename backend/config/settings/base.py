@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Local apps
     "apps.accounts",
-    # 'apps.products',
+    'apps.products',
     # 'apps.orders',
     # 'apps.payments',
 ]
