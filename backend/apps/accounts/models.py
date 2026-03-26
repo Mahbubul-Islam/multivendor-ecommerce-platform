@@ -51,7 +51,7 @@ class VendorProfile(models.Model):
         User, on_delete=models.CASCADE, related_name="vendor_profile"
     )
     shop_name = models.CharField(max_length=200)
-    shop_slug = models.SlugField(unique=True, blank=True, editable=False)
+    shop_slug = models.SlugField(unique=True, blank=True)
     shop_description = models.TextField(blank=True)
     logo = models.ImageField(upload_to="vendor_logos/", blank=True, null=True)
     banner = models.ImageField(upload_to="vendor_banners/", blank=True, null=True)
