@@ -1,18 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
-import useAuth from "../../features/auth/useAuth";
+// import useAuth from "../../features/auth/useAuth";
 import { FiShoppingCart, FiUser, FiLogOut, FiSearch } from "react-icons/fi";
+// import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
-	const { isAuthenticated, user } = useAuth();
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-	const handleLogout = () => {
-		dispatch(logoutUser());
-		navigate("/");
-	};
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
+  };
+
+
+
+const SomeComponent = () => {
+  const { user, isAuthenticated, isVendor } = useAuth();
+
+  if (!isAuthenticated) return <p>Please login</p>;
+
+  return (
+    <div>
+      <p>Welcome, {user.first_name}!</p>
+      {isVendor && <p>You are a vendor!</p>}
+    </div>
+  );
+};
 
 	return (
 		<nav className="bg-white shadow-md sticky top-0 z-50">

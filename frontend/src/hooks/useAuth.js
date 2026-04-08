@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux';
 
 const useAuth = () => {
-  const { user, isAuthenticated, loading } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
 
   return {
     user,
@@ -15,4 +13,5 @@ const useAuth = () => {
   };
 };
 
+    
 export default useAuth;
