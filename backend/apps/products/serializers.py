@@ -71,7 +71,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    vendor_name = serializers.CharField(source="vendor.username", read_only=True)
+    vendor_name = serializers.CharField(source="vendor.shop_name", read_only=True)
     category_name = serializers.CharField(source="category.name", read_only=True)
     current_price = serializers.DecimalField(
         max_digits=10, decimal_places=2, read_only=True
