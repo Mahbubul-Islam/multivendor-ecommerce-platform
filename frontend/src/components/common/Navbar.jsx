@@ -15,21 +15,6 @@ const Navbar = () => {
     navigate('/');
   };
 
-
-
-const SomeComponent = () => {
-  const { user, isAuthenticated, isVendor } = useAuth();
-
-  if (!isAuthenticated) return <p>Please login</p>;
-
-  return (
-    <div>
-      <p>Welcome, {user.first_name}!</p>
-      {isVendor && <p>You are a vendor!</p>}
-    </div>
-  );
-};
-
 	return (
 		<nav className="bg-white shadow-md sticky top-0 z-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
